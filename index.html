@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>deerma-manual-studio 平台化开发周期计划 · 可编辑版</title>
+<title>deerma-manual-studio 平台化开发周期计划 · 多版本可编辑</title>
 <style>
   :root{
     --bg:#0f1117; --panel:#161a23; --panel2:#1c2230; --line:#2a3142;
@@ -20,10 +20,25 @@
   }
   .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
 
+  /* Version selector */
+  .verbar{margin-top:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .verbar label{font-size:13px;color:var(--muted)}
+  .verbar select{
+    background:var(--panel);color:var(--txt);border:1px solid var(--line);border-radius:10px;
+    padding:8px 14px;font-size:14px;font-family:inherit;cursor:pointer;outline:none
+  }
+  .verbar select:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(79,157,255,.25)}
+  .verbar .newver{
+    background:var(--panel2);color:var(--accent);border:1px dashed var(--line);border-radius:8px;
+    padding:6px 12px;font-size:12px;cursor:pointer;transition:.15s
+  }
+  .verbar .newver:hover{border-color:var(--accent);background:rgba(79,157,255,.1)}
+  .verbar .vstatus{margin-left:auto;font-size:12px;color:var(--muted)}
+
   /* Hero */
-  header{padding:56px 0 36px}
+  header{padding:36px 0 36px}
   .tag{display:inline-block;font-size:12px;letter-spacing:1px;color:var(--accent);
-    border:1px solid var(--line);background:var(--panel);padding:4px 12px;border-radius:30px;margin-bottom:18px}
+    border:1px solid var(--line);background:var(--panel);padding:4px 12px;border-radius:30px;margin-bottom:10px}
   h1{font-size:34px;font-weight:800;letter-spacing:-.5px;line-height:1.25}
   h1 .v{color:var(--accent)}
   .sub{color:var(--muted);margin-top:12px;font-size:15px;max-width:760px}
@@ -130,7 +145,7 @@
   body.edit [contenteditable="true"]:hover{background:rgba(79,157,255,.08);box-shadow:0 0 0 1px rgba(79,157,255,.25)}
   body.edit [contenteditable="true"]:focus{background:rgba(79,157,255,.12);box-shadow:0 0 0 2px var(--accent)}
   /* keep bars non-editable even inside editable wrap */
-  .cell,.bar,.dot,.tag2{contenteditable:false !important;user-select:none}
+  .cell,.bar,.dot,.tag2,.n{contenteditable:false !important;user-select:none}
 
   #toolbar{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:999;
     display:flex;align-items:center;gap:8px;background:rgba(22,26,35,.92);backdrop-filter:blur(10px);
@@ -151,7 +166,7 @@
   #hint.show{opacity:1}
 
   @media print{
-    #toolbar,#hint{display:none !important}
+    #toolbar,#hint,.verbar{display:none !important}
     body{background:#fff;color:#111}
     .pcard,.week,.itcard,.risk,.finding,.dtable,.gantt{break-inside:avoid}
   }
@@ -164,170 +179,20 @@
 </style>
 </head>
 <body class="edit">
+
+<div class="wrap">
+  <!-- 版本选择器（不可编辑） -->
+  <div class="verbar" contenteditable="false">
+    <label for="verSelect">📌 版本计划</label>
+    <select id="verSelect"></select>
+    <button class="newver" id="btnNewVer" title="复制当前版本生成新版本">+ 复制当前版本</button>
+    <span class="vstatus" id="vstatus">当前：v2.0</span>
+  </div>
+</div>
+
+<!-- 可编辑文档区 -->
 <div class="wrap" id="doc" contenteditable="true">
-
-  <header>
-    <span class="tag">DEERMA · 平台化开发周期计划</span>
-    <h1>deerma-manual-studio <span class="v">v1.3 → v2.0</span><br>1 个月 / 4 周开发周期</h1>
-    <p class="sub">把单文件原型升级为可内部规模使用的「说明书 + 包装 + 多语言」设计平台。目标版本 <b>v2.0</b>。</p>
-    <div class="banner">
-      <b>⚡ 策略已调整（2026-07-30）：</b> Phase 1 由「核心编辑器闭环」改为优先打通多语言排版系统的 <b>多语言翻译 + 表格导入一键翻译</b>。克隆的 Poster Editor 已内置多语言中心 / AI 翻译 / 飞书表格导入 / 16 国自动排版 —— Phase 1 主要是「接通后端 + 让表格导入可用」，非从零开发。
-    </div>
-  </header>
-
-  <!-- 一、总体阶段 -->
-  <section>
-    <h2><span class="n">1</span> 总体阶段划分（4 周）</h2>
-    <div class="weeks">
-      <div class="week w1"><div class="wk">W1 – W2</div><div class="t">Phase 1：多语言翻译 & 表格导入</div>
-        <ul><li>AI 翻译后端接通</li><li>翻译管理闭环</li><li>表格导入一键翻译</li><li>16 国自动排版验证</li></ul></div>
-      <div class="week w3"><div class="wk">W3</div><div class="t">Phase 2：核心编辑器闭环</div>
-        <ul><li>尺寸模板系统</li><li>PDF 文本层导入</li><li>透明 PNG</li><li>矢量导出</li></ul></div>
-      <div class="week w4"><div class="wk">W4</div><div class="t">Phase 3：联动 & 整合 & 发布</div>
-        <ul><li>包装×编辑器联动</li><li>四入口统一壳</li><li>发布 v2.0</li></ul></div>
-      <div class="week w1" style="background:var(--panel2)"><div class="wk">贯穿</div><div class="t">🛠 IT 配合</div>
-        <ul><li>翻译 LLM Key 托管</li><li>测试 / CI 环境</li><li>存储 / 鉴权 / 域名</li><li>设计资产 MCP 放行</li></ul></div>
-    </div>
-  </section>
-
-  <!-- 二、Phase 1 详细 -->
-  <section>
-    <h2><span class="n">2</span> Phase 1 详细定义（W1–W2）</h2>
-    <div class="finding">
-      <h3>🔍 关键前置发现（决定实现路径）</h3>
-      Poster Editor 构建产物中已存在以下能力，Phase 1 = 接入 LLM 后端 + 让表格导入可用 + 联调验证：
-      <div class="chips">
-        <span class="chip"><b>langPanel</b> 多语言中心</span>
-        <span class="chip"><b>tabTranslate</b> 翻译管理</span>
-        <span class="chip"><b>tabLlm</b> AI 翻译</span>
-        <span class="chip"><b>llmEndpoint/Key/Model/Temp</b></span>
-        <span class="chip"><b>tabImport</b> 飞书表格导入</span>
-        <span class="chip"><b>feishuSync</b> 译文同步</span>
-        <span class="chip"><b>autoLayout</b> 多语言自动排版</span>
-        <span class="chip"><b>tid 锚点</b> + 英文母版映射</span>
-      </div>
-      <div class="arrow">→ 工作量远小于从零开发，重点在「接通」而非「造轮子」。</div>
-    </div>
-
-    <table class="dtable" style="margin-top:18px">
-      <thead><tr><th style="width:40px">#</th><th>交付项</th><th>具体内容</th><th>验收标准</th><th>主责</th></tr></thead>
-      <tbody>
-        <tr><td><span class="id">1</span></td><td><b>AI 翻译后端接通</b></td><td>配置 OpenAI 兼容端点 + Key（通义/智谱/DeepSeek 或 OpenAI），让 tabLlm「翻译此语言」出结果</td><td class="ok">选目标语言点 AI 翻译，译文正确回填，无 401/超时</td><td class="who">开发 + IT</td></tr>
-        <tr><td><span class="id">2</span></td><td><b>翻译管理闭环</b></td><td>手动编辑 + JSON 导入/导出 + tid 锚点 + 英文母版映射</td><td class="ok">导入既有翻译 JSON 后画布文本更新；导出 JSON 可再导入</td><td class="who">开发</td></tr>
-        <tr><td><span class="id">3</span></td><td><b>表格导入一键翻译</b></td><td>确定来源（飞书 URL 或本地 xlsx/csv）→ 解析为翻译表 → 一键调用 LLM 批量翻译补全缺失项</td><td class="ok">导入表格点「一键翻译」，所有未译语言批量补全</td><td class="who">开发</td></tr>
-        <tr><td><span class="id">4</span></td><td><b>16 国语言自动排版</b></td><td>验证 autoLayout 按 16 国展开内页可用</td><td class="ok">点自动排版，内页按 16 语生成独立页，数量正确</td><td class="who">开发</td></tr>
-        <tr><td><span class="id">5</span></td><td><b>真机测试框架</b></td><td>Playwright 覆盖翻译主流程（翻译→导入→自动排版）</td><td class="ok">主流程有自动化用例 + 截图回归</td><td class="who">开发 + 测试</td></tr>
-      </tbody>
-    </table>
-    <div class="judge"><b>✓ Phase 1 完成判据：</b> 运营/翻译同事导入含 tid 的表格 → 一键翻译补全 16 国语言 → 点自动排版生成多语页面，全过程无阻断。</div>
-  </section>
-
-  <!-- 三、Phase 2/3 概要 -->
-  <section>
-    <h2><span class="n">3</span> Phase 2 / 3 概要（W3–W4）</h2>
-    <div class="phases">
-      <div class="pcard p2"><div class="ph">PHASE 2</div><div class="wk2">W3 · 核心编辑器闭环（原 Phase 1）</div>
-        <div class="goal">收口 v1.3 编辑器，补齐结构能力</div>
-        <ul>
-          <li>编辑器 UI 收口（图标/主题/缩放回归）</li>
-          <li>尺寸模板系统（285×210mm 对折，左页不跨中线）</li>
-          <li>DEERMA / GT15X / Z50Combo / X10 模板</li>
-          <li>PDF 文本层导入（仅留可编辑文本）</li>
-          <li>透明背景 PNG（仅留产品主体）</li>
-          <li>pdf-lib + fontkit 矢量导出</li>
-        </ul></div>
-      <div class="pcard p3"><div class="ph">PHASE 3</div><div class="wk2">W4 · 联动 & 整合 & 发布</div>
-        <div class="goal">打通数据、统一入口、正式发布</div>
-        <ul>
-          <li>包装效果图与编辑器数据联动</li>
-          <li>四个入口统一平台壳</li>
-          <li>发布 v2.0（自有域名 / 内网）</li>
-          <li>Open Design MCP 接入</li>
-        </ul></div>
-      <div class="pcard" style="border-top:3px solid var(--it)"><div class="ph" style="color:var(--it)">基线</div><div class="wk2">版本锚点</div>
-        <div class="goal">v1.7（tag c1758d9）</div>
-        <ul>
-          <li>当前基线：v1.7</li>
-          <li>目标版本：v2.0</li>
-          <li>周期：1 个月 / 4 周</li>
-          <li>生成日期：2026-07-30</li>
-        </ul></div>
-    </div>
-  </section>
-
-  <!-- 四、IT 配合 -->
-  <section>
-    <h2><span class="n">4</span> 需要 IT 配合的工作</h2>
-    <div class="itgrid">
-      <div class="itcard"><div class="num">1</div><div class="ct"><div class="t">翻译 LLM 密钥托管</div>
-        <div class="d">统一托管 OpenAI 兼容端点 + Key（中文场景免代理）；前端不硬编码</div>
-        <div class="meta"><span class="badge crit">安全+网络</span><span class="badge w1">W1 就位</span><span class="badge">安全+网络</span></div></div></div>
-      <div class="itcard"><div class="num">2</div><div class="ct"><div class="t">静态托管与域名</div>
-        <div class="d">自有域名/内网 + HTTPS + CDN；或继续 GitHub Pages 及公开范围</div>
-        <div class="meta"><span class="badge">基础设施</span><span class="badge">Phase 3 前</span><span class="badge">运维</span></div></div></div>
-      <div class="itcard"><div class="num">3</div><div class="ct"><div class="t">访问鉴权</div>
-        <div class="d">内部用户是否需登录（当前全公开）</div>
-        <div class="meta"><span class="badge">安全</span><span class="badge">Phase 2</span><span class="badge">安全/IT</span></div></div></div>
-      <div class="itcard"><div class="num">4</div><div class="ct"><div class="t">对象存储 / 轻后端</div>
-        <div class="d">草稿云同步、团队模板库、译文库共享需要存储</div>
-        <div class="meta"><span class="badge">后端</span><span class="badge">Phase 2 前</span><span class="badge">后端</span></div></div></div>
-      <div class="itcard"><div class="num">5</div><div class="ct"><div class="t">设计资产 MCP 放行</div>
-        <div class="d">放行 Open Design / Figma 域名与本地 daemon 端口 (7456)</div>
-        <div class="meta"><span class="badge">网络+设计</span><span class="badge">Phase 3</span><span class="badge">网络+设计</span></div></div></div>
-      <div class="itcard"><div class="num">6</div><div class="ct"><div class="t">真机 / CI 测试环境</div>
-        <div class="d">提供 Chrome (headless) 跑 Playwright，或 CI 每日构建+截图</div>
-        <div class="meta"><span class="badge">测试/CI</span><span class="badge w1">Phase 1 起</span><span class="badge">测试/运维</span></div></div></div>
-      <div class="itcard"><div class="num">7</div><div class="ct"><div class="t">可观测性</div>
-        <div class="d">用户错误反馈 / 埋点收集</div>
-        <div class="meta"><span class="badge">可观测</span><span class="badge">Phase 3</span><span class="badge">运维</span></div></div></div>
-      <div class="itcard"><div class="num">8</div><div class="ct"><div class="t">Node 运行环境</div>
-        <div class="d">Open Design MCP 需 Node 24+（本地 22.22.2 不足）</div>
-        <div class="meta"><span class="badge">环境</span><span class="badge">Phase 3</span><span class="badge">运维</span></div></div></div>
-    </div>
-  </section>
-
-  <!-- 五、甘特图 -->
-  <section>
-    <h2><span class="n">5</span> 计划甘特图（按周）</h2>
-    <div class="gantt">
-      <div class="ghead"><div class="lbl">任务 \ 周次</div><div>W1</div><div>W2</div><div>W3</div><div>W4</div></div>
-      <div class="grow"><div class="name">AI 翻译后端接通</div><div class="cell"><div class="bar p1 fill"></div></div><div></div><div></div><div></div></div>
-      <div class="grow"><div class="name">翻译管理闭环</div><div class="cell"><div class="bar p1 fill"></div></div><div></div><div></div><div></div></div>
-      <div class="grow"><div class="name">表格导入一键翻译</div><div></div><div class="cell"><div class="bar p1 fill"></div></div><div></div><div></div></div>
-      <div class="grow"><div class="name">16 国语言自动排版</div><div></div><div class="cell"><div class="bar p1 fill"></div></div><div></div><div></div></div>
-      <div class="grow"><div class="name">Playwright 翻译主流程</div><div class="cell"><div class="bar p1 fill"></div></div><div class="cell"><div class="bar p1 fill"></div></div><div></div><div></div></div>
-      <div class="grow"><div class="name big" style="color:var(--p2)">核心编辑器闭环</div><div></div><div></div><div class="cell"><div class="bar p2 fill"></div></div><div></div></div>
-      <div class="grow"><div class="name big" style="color:var(--p3)">包装×编辑器联动</div><div></div><div></div><div></div><div class="cell"><div class="bar p3 fill"></div></div></div>
-      <div class="grow"><div class="name big" style="color:var(--p3)">四入口统一壳</div><div></div><div></div><div></div><div class="cell"><div class="bar p3 fill"></div></div></div>
-      <div class="grow"><div class="name big" style="color:var(--p3)">发布 v2.0</div><div></div><div></div><div></div><div class="cell"><div class="bar p3 fill"></div></div></div>
-      <div class="grow"><div class="name it">IT：翻译 LLM Key</div><div class="cell"><div class="bar it fill"></div></div><div class="cell"><div class="bar it fill"></div></div><div class="cell"><div class="bar it fill"></div></div><div class="cell"><div class="bar it fill"></div></div></div>
-      <div class="grow"><div class="name it">IT：测试 / CI 环境</div><div class="cell"><div class="bar it fill"></div></div><div class="cell"><div class="bar it fill"></div></div><div class="cell"><div class="bar it fill"></div></div><div class="cell"><div class="bar it fill"></div></div></div>
-      <div class="grow"><div class="name it">IT：存储/鉴权/域名</div><div></div><div></div><div class="cell"><div class="bar it fill"></div></div><div class="cell"><div class="bar it fill"></div></div></div>
-    </div>
-  </section>
-
-  <!-- 六、风险 -->
-  <section>
-    <h2><span class="n">6</span> 风险与待确认（W1 内拍板）</h2>
-    <div class="risks">
-      <div class="risk"><div class="dot block"></div><div class="ct"><div class="t"><span class="tag2">阻塞</span>翻译 LLM 来源</div>
-        <div class="d">需确定用哪家（通义/智谱/DeepSeek/OpenAI）及 Key 由谁提供；IT 是否做密钥托管代理。</div></div></div>
-      <div class="risk"><div class="dot block"></div><div class="ct"><div class="t"><span class="tag2">阻塞</span>表格导入来源</div>
-        <div class="d">App 内置是「飞书 wiki URL 同步」；若要「本地 Excel/CSV 上传」需新开发注入。需确认走哪种。</div></div></div>
-      <div class="risk"><div class="dot warn"></div><div class="ct"><div class="t">纯静态限制</div>
-        <div class="d">译文库共享 / 云同步仍需后端或 BaaS（影响 Phase 2）。</div></div></div>
-      <div class="risk"><div class="dot warn"></div><div class="ct"><div class="t">Node 版本</div>
-        <div class="d">Open Design MCP 需 24+，Phase 3 前 IT 提供环境。</div></div></div>
-      <div class="risk"><div class="dot warn"></div><div class="ct"><div class="t">发布形态</div>
-        <div class="d">v2.0 继续 GitHub Pages 公开 vs 内网 / 自有域名。</div></div></div>
-    </div>
-  </section>
-
-  <footer>
-    <span>基线：v1.7（tag c1758d9） ｜ 目标：v2.0 ｜ 周期：1 个月 / 4 周</span>
-    <span>生成日期：2026-07-30 ｜ 策略调整：Phase 1 转向多语言翻译 + 表格导入</span>
-  </footer>
-
+  <!-- JS 按当前版本渲染 -->
 </div>
 
 <!-- 浮动编辑工具栏 -->
@@ -345,40 +210,355 @@
 
 <script>
 (function(){
-  var KEY = "deerma_plan_phase1_editable_v1";
+  var KEY = "deerma_plan_versions_v1";
   var doc = document.getElementById("doc");
   var body = document.body;
   var status = document.getElementById("status");
   var hint = document.getElementById("hint");
   var btnToggle = document.getElementById("btnToggle");
+  var verSelect = document.getElementById("verSelect");
+  var vstatus = document.getElementById("vstatus");
+  var btnNewVer = document.getElementById("btnNewVer");
 
-  // 进入时显示提示
-  setTimeout(function(){ hint.classList.add("show"); }, 400);
-  setTimeout(function(){ hint.classList.remove("show"); }, 4000);
+  // ========== 默认版本数据 ==========
+  var DEFAULT_VERSIONS = {
+    "v2.0": {
+      tag: "DEERMA · 平台化开发周期计划",
+      title: "deerma-manual-studio <span class=\"v\">v1.3 → v2.0</span><br>1 个月 / 4 周开发周期",
+      sub: "把单文件原型升级为可内部规模使用的「说明书 + 包装 + 多语言」设计平台。目标版本 <b>v2.0</b>。",
+      banner: "<b>⚡ 策略已调整（2026-07-30）：</b> Phase 1 由「核心编辑器闭环」改为优先打通多语言排版系统的 <b>多语言翻译 + 表格导入一键翻译</b>。克隆的 Poster Editor 已内置多语言中心 / AI 翻译 / 飞书表格导入 / 16 国自动排版 —— Phase 1 主要是「接通后端 + 让表格导入可用」，非从零开发。",
+      section1Title: "总体阶段划分（4 周）",
+      weeks: [
+        {cls:"w1", wk:"W1 – W2", t:"Phase 1：多语言翻译 & 表格导入", items:["AI 翻译后端接通","翻译管理闭环","表格导入一键翻译","16 国自动排版验证"]},
+        {cls:"w3", wk:"W3", t:"Phase 2：核心编辑器闭环", items:["尺寸模板系统","PDF 文本层导入","透明 PNG","矢量导出"]},
+        {cls:"w4", wk:"W4", t:"Phase 3：联动 & 整合 & 发布", items:["包装×编辑器联动","四入口统一壳","发布 v2.0"]},
+        {cls:"w1", style:"background:var(--panel2)", wk:"贯穿", t:"🛠 IT 配合", items:["翻译 LLM Key 托管","测试 / CI 环境","存储 / 鉴权 / 域名","设计资产 MCP 放行"]}
+      ],
+      section2Title: "Phase 1 详细定义（W1–W2）",
+      findingTitle: "🔍 关键前置发现（决定实现路径）",
+      findingText: "Poster Editor 构建产物中已存在以下能力，Phase 1 = 接入 LLM 后端 + 让表格导入可用 + 联调验证：",
+      chips: ["langPanel 多语言中心","tabTranslate 翻译管理","tabLlm AI 翻译","llmEndpoint/Key/Model/Temp","tabImport 飞书表格导入","feishuSync 译文同步","autoLayout 多语言自动排版","tid 锚点 + 英文母版映射"],
+      findingArrow: "→ 工作量远小于从零开发，重点在「接通」而非「造轮子」。",
+      tableHeaders: ["#","交付项","具体内容","验收标准","主责"],
+      deliverables: [
+        {id:"1", name:"AI 翻译后端接通", desc:"配置 OpenAI 兼容端点 + Key（通义/智谱/DeepSeek 或 OpenAI），让 tabLlm「翻译此语言」出结果", ok:"选目标语言点 AI 翻译，译文正确回填，无 401/超时", who:"开发 + IT"},
+        {id:"2", name:"翻译管理闭环", desc:"手动编辑 + JSON 导入/导出 + tid 锚点 + 英文母版映射", ok:"导入既有翻译 JSON 后画布文本更新；导出 JSON 可再导入", who:"开发"},
+        {id:"3", name:"表格导入一键翻译", desc:"确定来源（飞书 URL 或本地 xlsx/csv）→ 解析为翻译表 → 一键调用 LLM 批量翻译补全缺失项", ok:"导入表格点「一键翻译」，所有未译语言批量补全", who:"开发"},
+        {id:"4", name:"16 国语言自动排版", desc:"验证 autoLayout 按 16 国展开内页可用", ok:"点自动排版，内页按 16 语生成独立页，数量正确", who:"开发"},
+        {id:"5", name:"真机测试框架", desc:"Playwright 覆盖翻译主流程（翻译→导入→自动排版）", ok:"主流程有自动化用例 + 截图回归", who:"开发 + 测试"}
+      ],
+      judge: "<b>✓ Phase 1 完成判据：</b> 运营/翻译同事导入含 tid 的表格 → 一键翻译补全 16 国语言 → 点自动排版生成多语页面，全过程无阻断。",
+      section3Title: "Phase 2 / 3 概要（W3–W4）",
+      phases23: [
+        {ph:"PHASE 2", color:"p2", wk2:"W3 · 核心编辑器闭环（原 Phase 1）", goal:"收口 v1.3 编辑器，补齐结构能力", items:["编辑器 UI 收口（图标/主题/缩放回归）","尺寸模板系统（285×210mm 对折，左页不跨中线）","DEERMA / GT15X / Z50Combo / X10 模板","PDF 文本层导入（仅留可编辑文本）","透明背景 PNG（仅留产品主体）","pdf-lib + fontkit 矢量导出"]},
+        {ph:"PHASE 3", color:"p3", wk2:"W4 · 联动 & 整合 & 发布", goal:"打通数据、统一入口、正式发布", items:["包装效果图与编辑器数据联动","四个入口统一平台壳","发布 v2.0（自有域名 / 内网）","Open Design MCP 接入"]},
+        {ph:"基线", color:"it", wk2:"版本锚点", goal:"v1.7（tag c1758d9）", items:["当前基线：v1.7","目标版本：v2.0","周期：1 个月 / 4 周","生成日期：2026-07-30"]}
+      ],
+      section4Title: "需要 IT 配合的工作",
+      it: [
+        {num:"1", t:"翻译 LLM 密钥托管", d:"统一托管 OpenAI 兼容端点 + Key（中文场景免代理）；前端不硬编码", badges:["安全+网络","W1 就位","安全+网络"]},
+        {num:"2", t:"静态托管与域名", d:"自有域名/内网 + HTTPS + CDN；或继续 GitHub Pages 及公开范围", badges:["基础设施","Phase 3 前","运维"]},
+        {num:"3", t:"访问鉴权", d:"内部用户是否需登录（当前全公开）", badges:["安全","Phase 2","安全/IT"]},
+        {num:"4", t:"对象存储 / 轻后端", d:"草稿云同步、团队模板库、译文库共享需要存储", badges:["后端","Phase 2 前","后端"]},
+        {num:"5", t:"设计资产 MCP 放行", d:"放行 Open Design / Figma 域名与本地 daemon 端口 (7456)", badges:["网络+设计","Phase 3","网络+设计"]},
+        {num:"6", t:"真机 / CI 测试环境", d:"提供 Chrome (headless) 跑 Playwright，或 CI 每日构建+截图", badges:["测试/CI","Phase 1 起","测试/运维"]},
+        {num:"7", t:"可观测性", d:"用户错误反馈 / 埋点收集", badges:["可观测","Phase 3","运维"]},
+        {num:"8", t:"Node 运行环境", d:"Open Design MCP 需 Node 24+（本地 22.22.2 不足）", badges:["环境","Phase 3","运维"]}
+      ],
+      section5Title: "计划甘特图（按周）",
+      gantt: [
+        {name:"AI 翻译后端接通", cls:"", bars:["p1","","",""]},
+        {name:"翻译管理闭环", cls:"", bars:["p1","","",""]},
+        {name:"表格导入一键翻译", cls:"", bars:["","p1","",""]},
+        {name:"16 国语言自动排版", cls:"", bars:["","p1","",""]},
+        {name:"Playwright 翻译主流程", cls:"", bars:["p1","p1","",""]},
+        {name:"核心编辑器闭环", cls:"big", style:"color:var(--p2)", bars:["","","p2",""]},
+        {name:"包装×编辑器联动", cls:"big", style:"color:var(--p3)", bars:["","","","p3"]},
+        {name:"四入口统一壳", cls:"big", style:"color:var(--p3)", bars:["","","","p3"]},
+        {name:"发布 v2.0", cls:"big", style:"color:var(--p3)", bars:["","","","p3"]},
+        {name:"IT：翻译 LLM Key", cls:"it", bars:["it","it","it","it"]},
+        {name:"IT：测试 / CI 环境", cls:"it", bars:["it","it","it","it"]},
+        {name:"IT：存储/鉴权/域名", cls:"it", bars:["","","it","it"]}
+      ],
+      section6Title: "风险与待确认（W1 内拍板）",
+      risks: [
+        {type:"block", tag:"阻塞", t:"翻译 LLM 来源", d:"需确定用哪家（通义/智谱/DeepSeek/OpenAI）及 Key 由谁提供；IT 是否做密钥托管代理。"},
+        {type:"block", tag:"阻塞", t:"表格导入来源", d:"App 内置是「飞书 wiki URL 同步」；若要「本地 Excel/CSV 上传」需新开发注入。需确认走哪种。"},
+        {type:"warn", tag:"", t:"纯静态限制", d:"译文库共享 / 云同步仍需后端或 BaaS（影响 Phase 2）。"},
+        {type:"warn", tag:"", t:"Node 版本", d:"Open Design MCP 需 24+，Phase 3 前 IT 提供环境。"},
+        {type:"warn", tag:"", t:"发布形态", d:"v2.0 继续 GitHub Pages 公开 vs 内网 / 自有域名。"}
+      ],
+      footer: "<span>基线：v1.7（tag c1758d9） ｜ 目标：v2.0 ｜ 周期：1 个月 / 4 周</span><span>生成日期：2026-07-30 ｜ 策略调整：Phase 1 转向多语言翻译 + 表格导入</span>"
+    },
+    "v2.1": {
+      tag: "DEERMA · 平台化开发周期计划",
+      title: "deerma-manual-studio <span class=\"v\">v2.0 → v2.1</span><br>6 周迭代周期",
+      sub: "在 v2.0 多语言排版闭环基础上，补齐包装结构设计器、AI 翻译审校、团队协作与数据洞察，目标版本 <b>v2.1</b>。",
+      banner: "<b>🚀 v2.1 重点：</b> 从「能生成多语言说明书」升级为「包装结构 + 多语言内容 + 团队协作」一体化设计平台。新增 <b>飞机盒/插舌盒刀线生成</b>、<b>AI 翻译质量评分</b>、<b>项目级权限与审校流</b>。",
+      section1Title: "总体阶段划分（6 周）",
+      weeks: [
+        {cls:"w1", wk:"W1 – W2", t:"Phase 1：包装结构设计器", items:["飞机盒参数化刀线","插舌盒/自锁底模板","压痕线与出血位","刀线 SVG/PDF 导出"]},
+        {cls:"w3", wk:"W3 – W4", t:"Phase 2：多语言质量 & 协作", items:["AI 翻译质量评分","人工审校工作流","术语库 / 记忆库","飞书多维表格同步"]},
+        {cls:"w4", wk:"W5 – W6", t:"Phase 3：团队与数据", items:["项目级权限","版本历史","使用埋点","发布 v2.1"]},
+        {cls:"w1", style:"background:var(--panel2)", wk:"贯穿", t:"🛠 IT 配合", items:["对象存储扩容","鉴权服务","CI/CD  nightly","Open Design 24+ 环境"]}
+      ],
+      section2Title: "Phase 1 详细定义（W1–W2）",
+      findingTitle: "🔍 关键前置发现（决定实现路径）",
+      findingText: "v2.0 已跑通多语言内容生成；v2.1 需要把「包装结构」也纳入平台。优先做规则盒型（飞机盒、插舌盒、自锁底），参数化驱动刀线生成：",
+      chips: ["盒型参数库","刀线算法（裁切/压痕/齿刀）","出血位 + 叼口","SVG 矢量化","pdf-lib 导出 PDF 刀版图","3D 展开预览"],
+      findingArrow: "→ 先覆盖 80% 说明书使用场景的规则盒型，异形盒后续通过 Open Design MCP 接入。",
+      tableHeaders: ["#","交付项","具体内容","验收标准","主责"],
+      deliverables: [
+        {id:"1", name:"飞机盒刀线生成器", desc:"输入长/宽/高/纸板厚度，自动生成含裁切线、压痕线、插舌的飞机盒刀线图", ok:"修改参数后 1s 内重绘刀线；导出 SVG 在 AI 中可编辑", who:"开发"},
+        {id:"2", name:"插舌盒 & 自锁底模板", desc:"常见说明书盒型参数化模板；支持保存为团队模板", ok:"至少 3 种盒型可参数化生成；模板可复用", who:"开发 + 设计"},
+        {id:"3", name:"刀线导出", desc:"SVG / PDF 单页刀版图；可选带尺寸标注", ok:"导出的 PDF 可直接发印厂打样", who:"开发"},
+        {id:"4", name:"3D 展开预览", desc:"基于刀线参数做 2.5D 折叠示意，辅助设计审阅", ok:"折叠步骤可拖动；截图可导出", who:"开发"},
+        {id:"5", name:"刀线单元测试", desc:"参数组合覆盖边界值（极小/极大尺寸、零插舌）", ok:"核心盒型 20+ 组参数用例通过", who:"开发 + 测试"}
+      ],
+      judge: "<b>✓ Phase 1 完成判据：</b> 设计师输入产品尺寸 → 自动生成飞机盒刀线 → 导出 PDF 可直接打样，异形盒可调用模板。",
+      section3Title: "Phase 2 / 3 概要（W3–W6）",
+      phases23: [
+        {ph:"PHASE 2", color:"p2", wk2:"W3–W4 · 多语言质量 & 协作", goal:"让多语言翻译从「可用」到「敢用」", items:["AI 翻译质量评分（ perplexity / 回译一致性）","人工审校任务分配","术语库与翻译记忆库","飞书多维表格双向同步"]},
+        {ph:"PHASE 3", color:"p3", wk2:"W5–W6 · 团队与数据", goal:"支撑多项目、多角色、可观测", items:["项目级 RBAC（管理员/翻译/设计师/访客）","文档版本历史与回滚","使用埋点 & 错误监控","发布 v2.1"]},
+        {ph:"基线", color:"it", wk2:"版本锚点", goal:"v2.0", items:["当前基线：v2.0","目标版本：v2.1","周期：6 周","生成日期：2026-07-30"]}
+      ],
+      section4Title: "需要 IT 配合的工作",
+      it: [
+        {num:"1", t:"对象存储扩容", d:"刀线 SVG/PDF、项目文件、版本历史需要持久化存储", badges:["后端","W1 就位","后端"]},
+        {num:"2", t:"鉴权服务", d:"项目级 RBAC 需要用户体系与权限服务", badges:["安全","W3 就位","安全/IT"]},
+        {num:"3", t:"CI/CD nightly", d:"刀线生成算法 + 翻译流程每日回归", badges:["测试/CI","W2 起","测试/运维"]},
+        {num:"4", t:"Open Design Node 24+", d:"为 v2.1 包装-MCP 接入准备运行环境", badges:["环境","W5 前","运维"]},
+        {num:"5", t:"埋点与可观测", d:"Sentry / 自建埋点，收集错误与使用路径", badges:["可观测","W5 前","运维"]},
+        {num:"6", t:"域名 & HTTPS", d:"v2.1 若内网发布需准备域名与证书", badges:["基础设施","W6 前","运维"]}
+      ],
+      section5Title: "计划甘特图（按周）",
+      gantt: [
+        {name:"飞机盒刀线生成器", cls:"", bars:["p1","p1","","","",""]},
+        {name:"插舌盒 & 自锁底模板", cls:"", bars:["","p1","p1","","",""]},
+        {name:"刀线导出", cls:"", bars:["","","p1","","",""]},
+        {name:"3D 展开预览", cls:"", bars:["","","","p1","",""]},
+        {name:"AI 翻译质量评分", cls:"", bars:["","","p2","p2","",""]},
+        {name:"审校工作流 & 术语库", cls:"", bars:["","","","p2","p2",""]},
+        {name:"项目级 RBAC", cls:"", bars:["","","","","p3","p3"]},
+        {name:"埋点 & 可观测", cls:"", bars:["","","","","p3","p3"]},
+        {name:"发布 v2.1", cls:"big", style:"color:var(--p3)", bars:["","","","","","p3"]},
+        {name:"IT：对象存储 & 鉴权", cls:"it", bars:["it","it","it","it","it","it"]},
+        {name:"IT：CI/CD nightly", cls:"it", bars:["","it","it","it","it","it"]},
+        {name:"IT：Open Design 环境", cls:"it", bars:["","","","","it","it"]}
+      ],
+      section6Title: "风险与待确认（W1 内拍板）",
+      risks: [
+        {type:"block", tag:"阻塞", t:"盒型算法来源", d:"刀线算法自研 vs 引入开源库（如 boxdesigner）vs 外包印厂标准。"},
+        {type:"block", tag:"阻塞", t:"3D 预览方案", d:"自研 Canvas 2.5D 还是引入 Three.js / Babylon；是否支持实时折叠动画。"},
+        {type:"warn", tag:"", t:"数据迁移", d:"v2.0 的翻译 JSON 与新项目模型是否兼容。"},
+        {type:"warn", tag:"", t:"权限模型", d:"是否按项目隔离还是按角色全局控制；飞书组织架构同步与否。"},
+        {type:"warn", tag:"", t:"发布形态", d:"v2.1 继续 GitHub Pages + 轻后端，还是完全内网部署。"}
+      ],
+      footer: "<span>基线：v2.0 ｜ 目标：v2.1 ｜ 周期：6 周</span><span>生成日期：2026-07-30 ｜ 重点：包装刀线 + 多语言质量 + 团队协作</span>"
+    }
+  };
 
-  // 自动保存（防抖）
-  var t;
-  function save(){
+  // 恢复或初始化版本库
+  var store = {current:"v2.0", versions:JSON.parse(JSON.stringify(DEFAULT_VERSIONS)), edited:{}};
+  try{
+    var saved = localStorage.getItem(KEY);
+    if(saved){
+      var parsed = JSON.parse(saved);
+      if(parsed && parsed.current && parsed.versions){ store = parsed; }
+    }
+  }catch(e){}
+
+  // 如果存储的版本数量/键和默认不一致，合并默认
+  Object.keys(DEFAULT_VERSIONS).forEach(function(k){
+    if(!store.versions[k]) store.versions[k] = JSON.parse(JSON.stringify(DEFAULT_VERSIONS[k]));
+  });
+
+  // ========== 渲染函数 ==========
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+  function renderVer(vkey){
+    var d = store.versions[vkey];
+    var html = '';
+
+    html += '<header>';
+    html += '<span class="tag">'+esc(d.tag)+'</span>';
+    html += '<h1>'+d.title+'</h1>';
+    html += '<p class="sub">'+d.sub+'</p>';
+    html += '<div class="banner">'+d.banner+'</div>';
+    html += '</header>';
+
+    html += '<section><h2><span class="n">1</span> '+esc(d.section1Title)+'</h2><div class="weeks">';
+    d.weeks.forEach(function(w){
+      html += '<div class="week '+w.cls+'"'+(w.style?' style="'+w.style+'"':'')+'>';
+      html += '<div class="wk">'+esc(w.wk)+'</div><div class="t">'+esc(w.t)+'</div><ul>';
+      w.items.forEach(function(it){ html += '<li>'+esc(it)+'</li>'; });
+      html += '</ul></div>';
+    });
+    html += '</div></section>';
+
+    html += '<section><h2><span class="n">2</span> '+esc(d.section2Title)+'</h2>';
+    html += '<div class="finding"><h3>'+esc(d.findingTitle)+'</h3>'+d.findingText;
+    html += '<div class="chips">';
+    d.chips.forEach(function(c){ html += '<span class="chip"><b>'+esc(c)+'</b></span>'; });
+    html += '</div><div class="arrow">'+esc(d.findingArrow)+'</div></div>';
+
+    html += '<table class="dtable" style="margin-top:18px"><thead><tr>';
+    d.tableHeaders.forEach(function(h){ html += '<th>'+esc(h)+'</th>'; });
+    html += '</tr></thead><tbody>';
+    d.deliverables.forEach(function(row){
+      html += '<tr><td><span class="id">'+esc(row.id)+'</span></td>';
+      html += '<td><b>'+esc(row.name)+'</b></td>';
+      html += '<td>'+esc(row.desc)+'</td>';
+      html += '<td class="ok">'+esc(row.ok)+'</td>';
+      html += '<td class="who">'+esc(row.who)+'</td></tr>';
+    });
+    html += '</tbody></table>';
+    html += '<div class="judge">'+d.judge+'</div></section>';
+
+    html += '<section><h2><span class="n">3</span> '+esc(d.section3Title)+'</h2><div class="phases">';
+    d.phases23.forEach(function(p){
+      html += '<div class="pcard '+p.color+'"><div class="ph">'+esc(p.ph)+'</div>';
+      html += '<div class="wk2">'+esc(p.wk2)+'</div>';
+      html += '<div class="goal">'+esc(p.goal)+'</div><ul>';
+      p.items.forEach(function(it){ html += '<li>'+esc(it)+'</li>'; });
+      html += '</ul></div>';
+    });
+    html += '</div></section>';
+
+    html += '<section><h2><span class="n">4</span> '+esc(d.section4Title)+'</h2><div class="itgrid">';
+    d.it.forEach(function(it){
+      html += '<div class="itcard"><div class="num">'+esc(it.num)+'</div><div class="ct">';
+      html += '<div class="t">'+esc(it.t)+'</div>';
+      html += '<div class="d">'+esc(it.d)+'</div>';
+      html += '<div class="meta">';
+      it.badges.forEach(function(b){
+        var cls = 'badge';
+        if(b.indexOf('阻塞')!==-1 || b.indexOf('W1')!==-1) cls += ' crit';
+        else if(b.indexOf('就位')!==-1) cls += ' w1';
+        html += '<span class="'+cls+'">'+esc(b)+'</span>';
+      });
+      html += '</div></div></div>';
+    });
+    html += '</div></section>';
+
+    html += '<section><h2><span class="n">5</span> '+esc(d.section5Title)+'</h2><div class="gantt">';
+    html += '<div class="ghead"><div class="lbl">任务 \\ 周次</div>';
+    for(var i=1;i<=d.gantt[0].bars.length;i++) html += '<div>W'+i+'</div>';
+    html += '</div>';
+    d.gantt.forEach(function(g){
+      html += '<div class="grow"><div class="name '+g.cls+'"'+(g.style?' style="'+g.style+'"':'')+'>'+esc(g.name)+'</div>';
+      g.bars.forEach(function(b){ html += '<div class="cell">'+(b?'<div class="bar '+b+' fill"></div>':'')+'</div>'; });
+      html += '</div>';
+    });
+    html += '</div></section>';
+
+    html += '<section><h2><span class="n">6</span> '+esc(d.section6Title)+'</h2><div class="risks">';
+    d.risks.forEach(function(r){
+      html += '<div class="risk"><div class="dot '+(r.type==='block'?'block':'warn')+'"></div>';
+      html += '<div class="ct"><div class="t">'+(r.tag?'<span class="tag2">'+esc(r.tag)+'</span>':'')+esc(r.t)+'</div>';
+      html += '<div class="d">'+esc(r.d)+'</div></div></div>';
+    });
+    html += '</div></section>';
+
+    html += '<footer>'+d.footer+'</footer>';
+    return html;
+  }
+
+  // ========== 版本切换与保存 ==========
+  function populateSelector(){
+    var old = verSelect.value;
+    verSelect.innerHTML = '';
+    Object.keys(store.versions).forEach(function(k){
+      var opt = document.createElement('option');
+      opt.value = k; opt.textContent = k;
+      verSelect.appendChild(opt);
+    });
+    if(store.versions[old]) verSelect.value = old;
+    else if(store.versions[store.current]) verSelect.value = store.current;
+  }
+
+  function syncDocToData(vkey){
+    // 把当前 doc.innerHTML 写回对应版本（保留用户编辑）
+    store.versions[vkey] = null; // 标记需要序列化后再存；这里直接保留 HTML 字符串
+    // 实际这里简单处理：用 innerHTML 作为版本内容字符串存储
+    // 但数据结构是对象，所以用一个 editedHtml 字段保存用户覆盖的 HTML
+  }
+
+  function saveStore(){
     try{
-      localStorage.setItem(KEY, doc.innerHTML);
+      localStorage.setItem(KEY, JSON.stringify(store));
       status.textContent = "已自动保存";
       status.classList.add("saved");
     }catch(e){ status.textContent = "保存失败"; }
   }
+
+  function applyVersion(vkey){
+    if(!store.versions[vkey]) return;
+    // 切换前：如果当前版本有用户编辑后的 innerHTML，先保存覆盖
+    if(store.edited[store.current] !== undefined){
+      store.edited[store.current] = doc.innerHTML;
+    }
+    store.current = vkey;
+    // 加载：优先用 editedHtml，否则用默认数据渲染
+    if(store.edited[vkey]){
+      doc.innerHTML = store.edited[vkey];
+    }else{
+      doc.innerHTML = renderVer(vkey);
+    }
+    verSelect.value = vkey;
+    vstatus.textContent = "当前：" + vkey;
+    saveStore();
+  }
+
+  // 输入监听：把当前 innerHTML 保存到 edited[current]
+  var t;
   function scheduleSave(){
     status.textContent = "编辑中…"; status.classList.remove("saved");
     clearTimeout(t);
-    t = setTimeout(save, 600);
+    t = setTimeout(function(){
+      store.edited[store.current] = doc.innerHTML;
+      saveStore();
+    }, 600);
   }
   doc.addEventListener("input", scheduleSave);
 
-  // 恢复
-  try{
-    var saved = localStorage.getItem(KEY);
-    if(saved && saved.length){ doc.innerHTML = saved; }
-  }catch(e){}
+  verSelect.addEventListener("change", function(){ applyVersion(verSelect.value); });
 
-  // 编辑模式切换
+  // 新建版本：复制当前版本数据
+  btnNewVer.addEventListener("click", function(){
+    var base = store.current;
+    var keys = Object.keys(store.versions).sort();
+    // 找到下一个版本号 v2.x
+    var max = 2;
+    keys.forEach(function(k){
+      var m = k.match(/^v(\d+)\.(\d+)$/);
+      if(m){ var major = parseInt(m[1]), minor = parseInt(m[2]); if(major>max) max=major*1000+minor; }
+    });
+    var nextMajor = 2, nextMinor = 1;
+    // 简单递增 minor
+    var nums = keys.filter(function(k){ return k.indexOf('v2.')===0; }).map(function(k){ return parseInt(k.split('.')[1])||0; });
+    nextMinor = Math.max.apply(null, nums) + 1;
+    var newKey = "v2." + nextMinor;
+    store.versions[newKey] = JSON.parse(JSON.stringify(store.versions[base]));
+    // 继承 editedHtml 如果有
+    store.edited[newKey] = store.edited[base] ? store.edited[base] : renderVer(newKey);
+    // 修改标题里的版本号（如果内容还没被用户大量编辑）
+    store.edited[newKey] = store.edited[newKey].replace(/v\d+\.\d+ → v\d+\.\d+/g, function(m){
+      return m.replace(/→ v\d+\.\d+/, "→ "+newKey);
+    });
+    populateSelector();
+    applyVersion(newKey);
+    saveStore();
+  });
+
+  // 初始化
+  populateSelector();
+  applyVersion(store.current);
+
+  // ========== 工具栏 ==========
+  setTimeout(function(){ hint.classList.add("show"); }, 400);
+  setTimeout(function(){ hint.classList.remove("show"); }, 4000);
+
   var editing = true;
   function setEdit(on){
     editing = on;
@@ -387,26 +567,25 @@
   }
   btnToggle.addEventListener("click", function(){ setEdit(!editing); });
 
-  // 手动保存
-  document.getElementById("btnSave").addEventListener("click", function(){ save(); });
+  document.getElementById("btnSave").addEventListener("click", function(){
+    store.edited[store.current] = doc.innerHTML;
+    saveStore();
+  });
 
-  // 导出可编辑 HTML（含脚本，保持可编辑）
   document.getElementById("btnExport").addEventListener("click", function(){
     var html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
     var blob = new Blob([html], {type:"text/html;charset=utf-8"});
     var a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "开发周期计划_Phase1_可编辑.html";
+    a.download = "开发周期计划_多版本可编辑.html";
     a.click();
     URL.revokeObjectURL(a.href);
   });
 
-  // 打印 / PDF
   document.getElementById("btnPdf").addEventListener("click", function(){ window.print(); });
 
-  // 重置（恢复初始内容，清本地存储）
   document.getElementById("btnReset").addEventListener("click", function(){
-    if(confirm("确认重置为初始内容？本机保存的所有修改将丢失。")){
+    if(confirm("确认重置为初始内容？所有版本的本地修改将丢失。")){
       localStorage.removeItem(KEY);
       location.reload();
     }
