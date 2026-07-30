@@ -210,7 +210,10 @@
 
 <script>
 (function(){
-  var KEY = "deerma_plan_versions_v1";
+  var KEY = "deerma_plan_versions_v2";
+  // 清理旧版/历史脏缓存，避免空内容覆盖已存数据
+  try{ localStorage.removeItem("deerma_plan_versions_v1"); }catch(e){}
+  try{ localStorage.removeItem("deerma_plan_phase1_editable_v1"); }catch(e){}
   var doc = document.getElementById("doc");
   var body = document.body;
   var status = document.getElementById("status");
@@ -494,13 +497,13 @@
 
   function applyVersion(vkey){
     if(!store.versions[vkey]) return;
-    // 切换前：如果当前版本有用户编辑后的 innerHTML，先保存覆盖
-    if(store.edited[store.current] !== undefined){
+    // 切换前：仅当当前 doc 已渲染出有效内容才回存，避免用空白覆盖已保存内容
+    if(doc.innerHTML && doc.innerHTML.replace(/\s/g,'').length > 50){
       store.edited[store.current] = doc.innerHTML;
     }
     store.current = vkey;
-    // 加载：优先用 editedHtml，否则用默认数据渲染
-    if(store.edited[vkey]){
+    // 加载：优先用 edited（需有足够长度，否则回退默认渲染）
+    if(store.edited[vkey] && store.edited[vkey].replace(/\s/g,'').length > 50){
       doc.innerHTML = store.edited[vkey];
     }else{
       doc.innerHTML = renderVer(vkey);
