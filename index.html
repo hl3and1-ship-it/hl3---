@@ -260,7 +260,7 @@
         {cls:"w1", wk:"W1 – W2", t:"Phase 1：多语言翻译 & 表格导入", items:["AI 翻译后端接通","翻译管理闭环","表格导入一键翻译","16 国自动排版验证"]},
         {cls:"w3", wk:"W3", t:"Phase 2：核心编辑器闭环", items:["尺寸模板系统","PDF 文本层导入","透明 PNG","矢量导出"]},
         {cls:"w4", wk:"W4", t:"Phase 3：联动 & 整合 & 发布", items:["包装×编辑器联动","四入口统一壳","发布 v2.0"]},
-        {cls:"w1", style:"background:var(--panel2)", wk:"贯穿", t:"🛠 IT 配合", items:["翻译 LLM Key 托管","测试 / CI 环境","存储 / 鉴权 / 域名","设计资产 MCP 放行"]}
+        {cls:"w1", style:"background:var(--panel2)", wk:"贯穿", t:"🛠 IT 配合", items:["翻译 LLM Key 托管","测试 / CI 环境","存储 / 鉴权 / 域名"]}
       ],
       section2Title: "Phase 1 详细定义（W1–W2）",
       findingTitle: "🔍 关键前置发现（决定实现路径）",
@@ -288,10 +288,8 @@
         {num:"2", t:"静态托管与域名", d:"自有域名/内网 + HTTPS + CDN；或继续 GitHub Pages 及公开范围", badges:["基础设施","Phase 3 前","运维"]},
         {num:"3", t:"访问鉴权", d:"内部用户是否需登录（当前全公开）", badges:["安全","Phase 2","安全/IT"]},
         {num:"4", t:"对象存储 / 轻后端", d:"草稿云同步、团队模板库、译文库共享需要存储", badges:["后端","Phase 2 前","后端"]},
-        {num:"5", t:"设计资产 MCP 放行", d:"放行 Open Design / Figma 域名与本地 daemon 端口 (7456)", badges:["网络+设计","Phase 3","网络+设计"]},
-        {num:"6", t:"真机 / CI 测试环境", d:"提供 Chrome (headless) 跑 Playwright，或 CI 每日构建+截图", badges:["测试/CI","Phase 1 起","测试/运维"]},
-        {num:"7", t:"可观测性", d:"用户错误反馈 / 埋点收集", badges:["可观测","Phase 3","运维"]},
-        {num:"8", t:"Node 运行环境", d:"Open Design MCP 需 Node 24+（本地 22.22.2 不足）", badges:["环境","Phase 3","运维"]}
+        {num:"5", t:"真机 / CI 测试环境", d:"提供 Chrome (headless) 跑 Playwright，或 CI 每日构建+截图", badges:["测试/CI","Phase 1 起","测试/运维"]},
+        {num:"6", t:"可观测性", d:"用户错误反馈 / 埋点收集", badges:["可观测","Phase 3","运维"]}
       ],
       section5Title: "计划甘特图（按周）",
       gantt: [
