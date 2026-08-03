@@ -11,6 +11,29 @@
     --green:#39d98a; --amber:#ffb454; --red:#ff6b6b; --cyan:#46d6e0;
     --p1:#4f9dff; --p2:#7c5cff; --p3:#39d98a; --it:#ffb454;
   }
+  /* ============ 浅色主题 ============ */
+  [data-theme="light"]{
+    --bg:#eef1f6; --panel:#ffffff; --panel2:#e7ebf2; --line:#d2d9e4;
+    --txt:#1a2030; --muted:#5b6473; --accent:#2b7fff; --accent2:#6a3ff0;
+    --green:#1aa564; --amber:#c47d12; --red:#d83a3a; --cyan:#15808c;
+    --p1:#2b7fff; --p2:#6a3ff0; --p3:#1aa564; --it:#c47d12;
+  }
+  [data-theme="light"] body{background:radial-gradient(1200px 600px at 70% -10%, #dfe6f3 0%, var(--bg) 55%)}
+  [data-theme="light"] .banner{background:linear-gradient(90deg,rgba(106,63,240,.10),rgba(43,127,255,.04));
+    border-color:#cdc6ec;border-left-color:var(--accent2)}
+  [data-theme="light"] .banner b{color:#5b3fd6}
+  [data-theme="light"] #hint{background:rgba(106,63,240,.10);border-color:#cdc6ec;color:#5b3fd6}
+  [data-theme="light"] #toolbar{background:rgba(255,255,255,.92);border-color:var(--line);box-shadow:0 8px 30px rgba(0,0,0,.12)}
+  [data-theme="light"] #toolbar button{color:var(--txt);background:var(--panel2)}
+  [data-theme="light"] #toolbar button:hover{border-color:var(--accent);color:#04122b}
+  [data-theme="light"] #toolbar button.primary{background:var(--accent);color:#fff}
+  [data-theme="light"] #toolbar button.primary:hover{background:#1a6fe0}
+  .theme-toggle{position:fixed;top:16px;right:16px;z-index:1000;
+    font-family:inherit;font-size:13px;color:var(--txt);background:var(--panel);
+    border:1px solid var(--line);border-radius:22px;padding:8px 14px;cursor:pointer;
+    box-shadow:0 4px 16px rgba(0,0,0,.18);transition:.15s;white-space:nowrap}
+  .theme-toggle:hover{border-color:var(--accent);color:#fff}
+  [data-theme="light"] .theme-toggle:hover{color:#04122b}
   *{box-sizing:border-box;margin:0;padding:0}
   body{
     background:radial-gradient(1200px 600px at 70% -10%, #1a2233 0%, var(--bg) 55%);
@@ -166,7 +189,7 @@
   #hint.show{opacity:1}
 
   @media print{
-    #toolbar,#hint,.verbar{display:none !important}
+    #toolbar,#hint,.verbar,#btnTheme{display:none !important}
     body{background:#fff;color:#111}
     .pcard,.week,.itcard,.risk,.finding,.dtable,.gantt{break-inside:avoid}
   }
@@ -179,6 +202,7 @@
 </style>
 </head>
 <body class="edit">
+<button id="btnTheme" class="theme-toggle" contenteditable="false" title="切换浅色 / 深色">🌙 深色</button>
 
 <div class="wrap">
   <!-- 版本选择器（不可编辑） -->
@@ -219,6 +243,7 @@
   var status = document.getElementById("status");
   var hint = document.getElementById("hint");
   var btnToggle = document.getElementById("btnToggle");
+  var btnTheme = document.getElementById("btnTheme");
   var verSelect = document.getElementById("verSelect");
   var vstatus = document.getElementById("vstatus");
   var btnNewVer = document.getElementById("btnNewVer");
@@ -569,6 +594,21 @@
     else { body.classList.remove("edit"); doc.setAttribute("contenteditable","false"); btnToggle.textContent = "🔒 已锁定"; btnToggle.classList.remove("primary"); }
   }
   btnToggle.addEventListener("click", function(){ setEdit(!editing); });
+
+  // 主题切换（浅色 / 深色），偏好持久化
+  var THEME_KEY = "deerma_plan_theme";
+  function applyTheme(th){
+    document.documentElement.setAttribute("data-theme", th);
+    if(btnTheme) btnTheme.textContent = (th === "light") ? "☀️ 浅色" : "🌙 深色";
+    try{ localStorage.setItem(THEME_KEY, th); }catch(e){}
+  }
+  var savedTheme = "dark";
+  try{ savedTheme = localStorage.getItem(THEME_KEY) || "dark"; }catch(e){}
+  applyTheme(savedTheme);
+  if(btnTheme) btnTheme.addEventListener("click", function(){
+    var cur = (document.documentElement.getAttribute("data-theme") === "light") ? "dark" : "light";
+    applyTheme(cur);
+  });
 
   document.getElementById("btnSave").addEventListener("click", function(){
     store.edited[store.current] = doc.innerHTML;
